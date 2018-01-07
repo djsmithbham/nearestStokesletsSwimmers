@@ -2,6 +2,8 @@ function PlotMultiSwimmerVelocityField(Xg,Yg,Zg,t,z,m,swimmer,boundary,epsilon,d
 
 if ~isempty(varargin)
     scl=varargin{1};
+else
+    scl=1;
 end
 
 % plotting grid

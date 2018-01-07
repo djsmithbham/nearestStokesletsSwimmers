@@ -2,6 +2,8 @@ function PlotMultiSpermSolution(fig,swimmer,plotSwitch,t,z,m,varargin)
 
 if ~isempty(varargin)
     mksz=varargin{1};
+else
+    mksz=1;
 end
 
 Nsw=length(swimmer);
