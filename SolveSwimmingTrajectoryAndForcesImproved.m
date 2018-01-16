@@ -1,4 +1,4 @@
-function [t,z]=SolveSwimmingTrajectoryAndForces(x00,b10,b20,tRange,swimmer,boundary,epsilon,domain,blockSize,varargin)
+function [t,z]=SolveSwimmingTrajectoryAndForcesImproved(x00,b10,b20,tRange,swimmer,boundary,epsilon,domain,rho,blockSize,varargin)
 
 % Solves problem of swimmer trajectory and accompanying time-varying forces
 % for velocity field reconstruction
@@ -28,4 +28,5 @@ end
 
 DOF=length(xis)+length(xib);
 z0=[x00;b10;b20;zeros(DOF,1)];
-[t,z]=ode113(@(t,z) SolveSwimmingProblemWithBoundary(z,swimmer,boundary,t,epsilon,domain,blockSize,varargin),tRange,z0);
+[t,z]=ode113(@(t,z) SolveSwimmingProblemWithBoundaryImproved(z,swimmer,boundary,t,epsilon,domain,rho,blockSize,varargin),tRange,z0);
+%[t,z]=odesolver(@(t,z) SolveSwimmingProblemWithBoundaryImproved(z,swimmer,boundary,t,epsilon,domain,rho,blockSize,varargin),tRange,z0);
