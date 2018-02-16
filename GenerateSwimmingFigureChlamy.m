@@ -118,7 +118,7 @@ fprintf('starting solver\n')
 [t,z]=SolveSwimmingTrajectoryAndForces(x00,b10,b20,tRange,swimmer,boundary,epsilon,domain,blockSize);
 solveTime=toc;
 
-at's fprintf('CPU time taken = %f\n',solveTime)
+fprintf('CPU time taken = %f\n',solveTime)
 
 save('biflagellateResults.mat')
 

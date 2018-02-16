@@ -31,7 +31,7 @@ swimmer{1}.model.F=ConstructInterpolantFromxyForm(S,T,xyWaveFn,args);
 swimmer{1}.fn=@SpermModelGI;
 
 % discretisation parameters - number of points
-swimmer{1}.model.ns=nns;
+swimmer{1}.model.ns=40;
 swimmer{1}.model.nh=4;
 swimmer{1}.model.Ns=100;
 swimmer{1}.model.Nh=10;
@@ -217,7 +217,8 @@ blockSize=0.2;
 tic
 fprintf('starting solver\n')
 
-[t,z]=SolveMultiSwimmingTrajectoryAndForces(x00,b10,b20,tRange,swimmer,boundary,epsilon,domain,blockSize);
+[t,z]=SolveMultiSwimmingTrajectoryAndForces(x00,b10,b20,tRange,swimmer,...
+    boundary,epsilon,domain,blockSize);
 
 solveTime = toc;
 fprintf('CPU time taken = %f\n',solveTime)
