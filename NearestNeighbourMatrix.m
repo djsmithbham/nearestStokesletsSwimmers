@@ -16,7 +16,8 @@ function NClosest=NearestNeighbourMatrix(xQuad,xTrac,varargin)
     
     if ~isempty(varargin)
         blockSize=varargin{1};
-        % calculate number of quadrature nodes that can be done in each block
+        % calculate number of quadrature nodes that can be done in each 
+        %   block
         blockNodes=floor(blockSize*2^27/(9*N));
     else
         blockNodes=Q;
@@ -48,5 +49,5 @@ function NClosest=NearestNeighbourMatrix(xQuad,xTrac,varargin)
         [~,nMin(iMin:iMax)]=min(distsq,[],2);
     end    
 	NClosest=sparse(Q,N); % creates sparse all-zero matrix
-	NClosest([1:Q]'+Q*(nMin-1))=1;
+	NClosest((1:Q)'+Q*(nMin-1))=1;
     NClosest=kron(speye(3),NClosest);

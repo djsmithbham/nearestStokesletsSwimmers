@@ -15,6 +15,7 @@ function S=RegStokeslet(x,X,eps)
 	rsq=r1.^2+r2.^2+r3.^2;
 	ireps3=1./(sqrt((rsq+eps^2)).^3);
 	isotropic=kron(eye(3),(rsq+2.0*eps^2).*ireps3);
-	dyadic=[r1.*r1 r1.*r2 r1.*r3; r2.*r1 r2.*r2 r2.*r3; r3.*r1 r3.*r2 r3.*r3].*kron(ones(3,3),ireps3);
+	dyadic=[r1.*r1 r1.*r2 r1.*r3; r2.*r1 r2.*r2 r2.*r3; ...
+        r3.*r1 r3.*r2 r3.*r3].*kron(ones(3,3),ireps3);
 
 	S=(1.0/(8.0*pi))*(isotropic+dyadic);

@@ -1,7 +1,6 @@
-function [x,v,X]=ChlamyModel1_headonly(t,model)
-
-% generates discretisation of a model chlamy, griddedInterpolant flagella,
-% flagella are synchronised, scalene ellipsoid head
+function [x,v,X]=ChlamyModel1_headonly(t,model) %#ok<INUSL>
+%
+% generates discretisation of a model chlamy scalene ellipsoid head only
 %
 % Input:
 %

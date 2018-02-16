@@ -1,8 +1,10 @@
 function S=RegBlakelet(x,X,eps)
-% regularised Blakelet, i.e. Ainley et al. 2008 solution (see Smith 2009 for sign error correction)
+% regularised Blakelet, i.e. Ainley et al. 2008 solution (see Smith 2009 
+%   for sign error correction)
 % x is a row vec of field points: 3*collocation points, M
 % X is a row vec of source points: 3*quadrature points, N
-% the matrix output is expected to be multipled by a N x M matrix of quadrature weights 
+% the matrix output is expected to be multipled by a N x M matrix of 
+%   quadrature weights 
 
 % primary regularised stokeslet
 
@@ -22,7 +24,8 @@ rsq=X1.^2+X2.^2+X3.^2;
 ireps3=1./(sqrt((rsq+eps^2)).^3);
 iso=kron(eye(3),(rsq+2.0*eps^2).*ireps3);
 Ireps3=kron(ones(3,3),ireps3);
-dyad=[X1.*X1 X1.*X2 X1.*X3; X2.*X1 X2.*X2 X2.*X3; X3.*X1 X3.*X2 X3.*X3].*(Ireps3);
+dyad=[X1.*X1 X1.*X2 X1.*X3; X2.*X1 X2.*X2 X2.*X3; X3.*X1 X3.*X2 X3.*X3] ...
+    .*(Ireps3);
 
 S=iso+dyad;
 
@@ -42,7 +45,8 @@ iReps=1./sqrt(Rsq+eps^2);
 iReps3=iReps.^3;
 iso=kron(eye(3),(Rsq+2.0*eps^2).*iReps3);
 IReps3=kron(ones(3,3),iReps3);
-dyad=[X1.*X1 X1.*X2 X1.*X3; X2.*X1 X2.*X2 X2.*X3; X3.*X1 X3.*X2 X3.*X3].*(IReps3);
+dyad=[X1.*X1 X1.*X2 X1.*X3; X2.*X1 X2.*X2 X2.*X3; X3.*X1 X3.*X2 X3.*X3] ...
+    .*(IReps3);
 
 % regularised stokeslet image
 
@@ -70,13 +74,18 @@ clear BT;
 
 
 IReps5=kron(ones(3,3),iReps5);
-PD=2*h.^2.*(kron(Delta,iReps3)-3*IReps5.*[X1.*X1 X1.*X2 -X1.*X3; X2.*X1 X2.*X2 -X2.*X3; X3.*X1 X3.*X2 -X3.*X3]);
+PD=2*h.^2.*(kron(Delta,iReps3)-3*IReps5.*[X1.*X1 X1.*X2 -X1.*X3; ...
+    X2.*X1 X2.*X2 -X2.*X3; X3.*X1 X3.*X2 -X3.*X3]);
 S=S+PD;
 clear PD;
 
 % regularised stokes dipole
 
-SD=2*h.*( [zeros(2*M/3,N);[X1.*(Rsq+4*eps^2).*iReps5 X2.*(Rsq+4*eps^2).*iReps5 -X3.*(Rsq+4*eps^2).*iReps5]] - kron(Delta,X3.*iReps3) +    [zeros(M,2*N/3) [X1.*iReps3; X2.*iReps3; X3.*iReps3]] + 3*IReps5.*kron(ones(3),X3).*[X1.*X1 X1.*X2 -X1.*X3; X2.*X1 X2.*X2 -X2.*X3; X3.*X1 X3.*X2 -X3.*X3]);
+SD=2*h.*( [zeros(2*M/3,N);[X1.*(Rsq+4*eps^2).*iReps5 X2.*(Rsq+4*eps^2) ...
+    .*iReps5 -X3.*(Rsq+4*eps^2).*iReps5]] - kron(Delta,X3.*iReps3)  ...
+    + [zeros(M,2*N/3) [X1.*iReps3; X2.*iReps3; X3.*iReps3]] ...
+    + 3*IReps5.*kron(ones(3),X3).*[X1.*X1 X1.*X2 -X1.*X3; ...
+    X2.*X1 X2.*X2 -X2.*X3; X3.*X1 X3.*X2 -X3.*X3]);
 S=S+SD;
 clear SD;
 

@@ -52,7 +52,7 @@ function dz=SolveSwimmingProblemWithBoundary(z,swimmer,boundary,t,epsilon,domain
     Ns=length(xs)/3;
     Qs=length(Xs)/3;
     Nb=length(xb)/3;
-    Qb=length(Xb)/3;
+    %Qb=length(Xb)/3;
     
     N=Ns+Nb;
 

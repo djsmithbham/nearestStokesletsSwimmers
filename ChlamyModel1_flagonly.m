@@ -1,7 +1,7 @@
 function [x,v,X]=ChlamyModel1_flagonly(t,model)
 
 % generates discretisation of a model chlamy, griddedInterpolant flagella,
-% flagella are synchronised, scalene ellipsoid head
+% flagella are synchronised, no head is included
 %
 % Input:
 %
@@ -20,20 +20,6 @@ function [x,v,X]=ChlamyModel1_flagonly(t,model)
 
 %-------------------------------------------------------------------
 % coarse grid - position and velocity
-
-% generate head position
-xh=GenerateSphereDiscr(model.nh,1);
-[xh1,xh2,xh3]=ExtractComponents(xh);
-xh1=model.a1*xh1;
-xh2=model.a2*xh2;
-xh3=model.a3*xh3;
-xh=[xh1;xh2;xh3];
-
-% head is stationary in body frame
-vh1=0*xh1;
-vh2=0*xh2;
-vh3=0*xh3;
-vh=[vh1;vh2;vh3];
 
 % flagellum
 s=linspace(0,1,model.ns);
@@ -76,14 +62,6 @@ v=MergeVectorGrids(vt,vc);
 
 %-------------------------------------------------------------------------
 % fine grid - position only
-%
-% generate head position
-Xh=GenerateSphereDiscr(model.Nh,1);
-[Xh1,Xh2,Xh3]=ExtractComponents(Xh);
-Xh1=model.a1*Xh1;
-Xh2=model.a2*Xh2;
-Xh3=model.a3*Xh3;
-Xh=[Xh1;Xh2;Xh3];
 
 % flagellum
 S=linspace(0,1,model.Ns);

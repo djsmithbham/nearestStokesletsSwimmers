@@ -1,4 +1,5 @@
-function PlotMultiSwimmerVelocityField(Xg,Yg,Zg,t,z,m,swimmer,boundary,epsilon,domain,blockSize,varargin)
+function PlotMultiSwimmerVelocityField(Xg,Yg,Zg,t,z,m,swimmer,boundary, ...
+    epsilon,domain,blockSize,varargin)
 
 if ~isempty(varargin)
     scl=varargin{1};
@@ -10,13 +11,19 @@ end
 xf=[Xg(:);Yg(:);Zg(:)];
 
 % check how many swimmers and extract kinematics
-Nsw=length(swimmer)
+Nsw=length(swimmer);
 
 if Nsw==1
     swimmertemp=swimmer;
     clear swimmer;
     swimmer{1}=swimmertemp;
 end
+
+x0 = cell(1,Nsw); O = cell(1,Nsw);
+B = cell(1,Nsw); b1 = cell(1,Nsw); b2 = cell(1,Nsw); b3 = cell(1,Nsw);
+xi = cell(1,Nsw); vi = cell(1,Nsw); Xi = cell(1,Nsw);
+x = cell(1,Nsw); x1 = cell(1,Nsw); x2 = cell(1,Nsw); x3 = cell(1,Nsw);
+X = cell(1,Nsw); X1 = cell(1,Nsw); X2 = cell(1,Nsw); X3 = cell(1,Nsw);
 for n=1:Nsw
     x0{n}=z(m,       n:Nsw:n+2*Nsw);
     b1{n}=z(m, 3*Nsw+n:Nsw:n+5*Nsw);
@@ -59,5 +66,5 @@ f=f(:);
 % evaluate and plot velocity field on grid
 u=EvaluateVelocityFromForce(xf,X,x,f,epsilon,domain,blockSize);
 
-[Ug,Vg,Wg]=ExtractComponents(u);
+[Ug,Vg,~]=ExtractComponents(u);
 quiver(Xg(:),Yg(:),scl*Ug,scl*Vg,0);

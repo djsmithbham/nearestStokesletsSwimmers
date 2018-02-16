@@ -1,4 +1,4 @@
-function [A,NN]=AssembleStokesletMatrix(xCollNodes,xQuadNodes,xForceNodes,eps,domain,blockSize);
+function [A,NN]=AssembleStokesletMatrix(xCollNodes,xQuadNodes,xForceNodes,eps,domain,blockSize)
 
 	% blockSize is in GB
 	% stokeslet values are calculated in blocks to avoid memory overflow

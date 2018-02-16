@@ -5,13 +5,15 @@ function F=ConstructInterpolantFromxyForm(s,t,xyWaveFn,varargin)
 % (s,t) are produced by ndgrid
 % xyWaveFn - function to give wave in xy form (as D&K)
 %
-
+x = zeros(size(s,1),size(s,2));
+y = x;
 for k=1:size(s,2)
     for j=1:size(s,1)
         if isempty(varargin)
             [x(j,k),y(j,k)]=FindxyAtArclength(s(j,k),t(j,k),xyWaveFn);
         else
-            [x(j,k),y(j,k)]=FindxyAtArclength(s(j,k),t(j,k),xyWaveFn,varargin{1});
+            [x(j,k),y(j,k)]=FindxyAtArclength(s(j,k),t(j,k),xyWaveFn,...
+                varargin{1});
         end
     end
 end

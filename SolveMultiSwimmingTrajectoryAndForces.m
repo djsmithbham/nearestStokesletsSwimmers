@@ -37,7 +37,7 @@ end
 xis=[];
 for n=1:Nsw
     [xistemp,~,~] = swimmer{n}.fn(0,swimmer{n}.model);
-    xis=[xis; xistemp];
+    xis=[xis; xistemp]; %#ok<AGROW>
 end
 [xib,~]   = boundary.fn(boundary.model);
 DOF=length(xis)+length(xib);
@@ -54,7 +54,5 @@ for n=1:Nsw
     z0(7*Nsw+n)= b20{n}(2);
     z0(8*Nsw+n)= b20{n}(3);
 end
-
-%z0=[x00;b10;b20;zeros(DOF,1)];
 
 [t,z]=ode45(@(t,z) SolveMultiSwimmingProblemWithBoundary(z,swimmer,boundary,t,epsilon,domain,blockSize,varargin),tRange,z0);

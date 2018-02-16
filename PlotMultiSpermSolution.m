@@ -14,6 +14,13 @@ if Nsw==1
     swimmer{1}=swimmertemp;
 end
 
+x0 = cell(1,Nsw);
+B = cell(1,Nsw); b1 = cell(1,Nsw); b2 = cell(1,Nsw); b3 = cell(1,Nsw);
+xi = cell(1,Nsw); vi = cell(1,Nsw); Xi = cell(1,Nsw);
+x = cell(1,Nsw); x1 = cell(1,Nsw); x2 = cell(1,Nsw); x3 = cell(1,Nsw);
+X = cell(1,Nsw); X1 = cell(1,Nsw); X2 = cell(1,Nsw); X3 = cell(1,Nsw);
+O = cell(1,Nsw);
+
 for n=1:Nsw
     x0{n}=z(m,       n:Nsw:n+2*Nsw);             %3*(n-1)+1:3*n);
     b1{n}=z(m, 3*Nsw+n:Nsw:n+5*Nsw);       %:3*Nsw+3*n);
@@ -21,8 +28,8 @@ for n=1:Nsw
     b3{n}=cross(b1{n},b2{n});
     B{n}=[b1{n}(:) b2{n}(:) b3{n}(:)];
     O{n}=x0{n}; %[x0{n}(1) x0{n}(2) x0{n}(3)];
-    n
-    t
+    
+    
     [xi{n},vi{n},Xi{n}]=swimmer{n}.fn(t(m),swimmer{n}.model);
     x{n}=ApplyRotationMatrix(B{n},xi{n});
     X{n}=ApplyRotationMatrix(B{n},Xi{n});

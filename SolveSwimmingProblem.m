@@ -40,10 +40,10 @@ function dz=SolveSwimmingProblem(z,swimmer,t,epsilon,domain,blockSize)
     AF=[sum(NN(1:Q,:),1);sum(NN(Q+1:2*Q,:),1);sum(NN(2*Q+1:3*Q,:),1)]; % force summation
     AU=-kron(eye(3),ones(N,1)); % component of velocity due to translational velocity of frame
 
-    [x1 x2 x3]=ExtractComponents(xx0);ze=0*x1; % component of velocity due to rotation of frame about x0
+    [x1, x2, x3]=ExtractComponents(xx0);ze=0*x1; % component of velocity due to rotation of frame about x0
     AOm=[ze -x3 x2; x3 ze -x1; -x2 x1 ze];
 
-    [x1 x2 x3]=ExtractComponents(X'*NN);ze=0*x1; % moment summation
+    [x1, x2, x3]=ExtractComponents(X'*NN);ze=0*x1; % moment summation
     AM=[ze -x3 x2; x3 ze -x1; -x2 x1 ze];
 
     A=[AS AU AOm; AF zeros(3,6); AM zeros(3,6)];
@@ -53,7 +53,7 @@ function dz=SolveSwimmingProblem(z,swimmer,t,epsilon,domain,blockSize)
 
     % solve and extract f, U, Omega
     sol=A\rhs;
-    f=sol(1:3*N);
+    %f=sol(1:3*N);
     U=sol(3*N+1:3*N+3);
     Om=sol(3*N+4:3*N+6);
 

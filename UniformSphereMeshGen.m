@@ -34,6 +34,6 @@ xm(6,:,:)=-c;
 ym(6,:,:)=-xi;
 zm(6,:,:)=et;
 
-[xm ym zm]=SphereProjector(xm,ym,zm,a);
+[xm, ym, zm]=SphereProjector(xm,ym,zm,a);
 
 %figure(1);hold on;plot3(reshape(xm,[],1),reshape(ym,[],1),reshape(zm,[],1),'.');
