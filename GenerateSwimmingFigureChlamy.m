@@ -106,7 +106,7 @@ stWaveFn=@ChlamyFromModel;
 swimmer.model.F=ConstructInterpolantFromSTForm(S,T,stWaveFn,[]);
 %------------------------------------------------------
 
-epsilon=0.001;
+epsilon=0.25/20;
 domain='i';
 blockSize=0.2;
 

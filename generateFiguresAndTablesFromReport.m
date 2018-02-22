@@ -7,22 +7,22 @@ GenerateSwimmingFigureChlamy
 %% Figure 2 - Sperm
 GenerateSwimmingFigureSperm
 
-%% Tables S1 - S5 (T2) - Chlamy convergence
-for ii = 1 : 5
+%% Tables S1 - S3, T2,T3 - Chlamy convergence
+for ii = 1 : 4
     GenerateChlamyConvergenceTables(ii)
 end
 
-%% Tables S6 - S8 - Sperm convergence
+%% Tables S4 - S6 - Sperm convergence
 for ii = 1 : 3
     GenerateSpermConvergenceTables(ii)
 end
 
-%% Tables S9 - S11 - Sperm convergence with boundary
+%% Tables S7 - S9 - Sperm convergence with boundary
 for ii = 1 : 3
     GenerateSpermBoundaryConvergenceTables(ii)
 end
 
-%% Tables S12 - S15 - Boundary point convergence with sperm
+%% Tables S10 - S13 - Boundary point convergence with sperm
 for ii = 1 : 4
     GenerateBoundaryConvergenceTables(ii)
 end

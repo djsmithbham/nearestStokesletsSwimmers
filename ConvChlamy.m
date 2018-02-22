@@ -100,7 +100,7 @@ swimmer.model.a3=0.6;
 swimmer.model.ang=pi/6;
 
 %% flagellar discretisation convergence
-epsilon = 0.0001;
+epsilon = 0.25/20;
 
 % Discretisation parameters
 % Coarse grid
