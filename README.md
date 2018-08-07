@@ -1,6 +1,10 @@
 # nearestStokesletsSwimmers
 
-Matlab code supporting the report 'Meshfree and efficient modelling of swimming cells' by M.T. Gallagher and D.J. Smith
+Matlab code supporting the paper: 
+Meshfree and efficient modelling of swimming cells
+Meurig T. Gallagher and David J. Smith
+Phys. Rev. Fluids 3, 053101
+2018
 
 The two main script files to produce the results in the report are:
 
