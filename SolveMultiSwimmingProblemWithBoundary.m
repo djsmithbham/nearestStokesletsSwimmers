@@ -72,31 +72,32 @@ vb=xb*0; % boundary is stationary
 xs=xsca{1};
 Xs=Xsca{1};
 vs=vsca{1};
+NNss=NearestNeighbourMatrix(Xsca{1},xsca{1},blockSize);
 if Nsw>1
     for n=2:Nsw
+        NNtemp=NearestNeighbourMatrix(Xsca{n},xsca{n},blockSize);
         xs=MergeVectorGrids(xs,xsca{n});
         Xs=MergeVectorGrids(Xs,Xsca{n});
         vs=MergeVectorGrids(vs,vsca{n});
+        NNss=MergeNNMatrices(NNss,NNtemp); % assemble each swimmer nearest-neighbour matrix separately
     end
 end
 
+NNbb=NearestNeighbourMatrix(Xb,xb,blockSize);
 x=MergeVectorGrids(xs,xb);
 X=MergeVectorGrids(Xs,Xb);
 v=MergeVectorGrids(vs,vb);
+NN=MergeNNMatrices(NNss,NNbb); % assemble boundary and swimmer nearest-neighbour matrices separately
 
 % now formulate fluid dynamics problem... essentially a mobility problem
 
 Ns=length(xs)/3;
 Qs=length(Xs)/3;
 Nb=length(xb)/3;
-%Qb=length(Xb)/3;
 
 N=Ns+Nb;
 
-[AS,~]=AssembleStokesletMatrix(x,X,x,epsilon,domain,blockSize);
-NNss=NearestNeighbourMatrix(Xs,xs,blockSize);
-
-%    AU =-kron(eye(3),[ones(Ns,1);zeros(Nb,1)]) ;
+[AS,~]=AssembleStokesletMatrix(x,X,x,epsilon,domain,blockSize,NN);
 
 au = zeros(Ns+Nb,Nsw);
 
@@ -105,21 +106,12 @@ for n=1:Nsw
 end
 AU = kron(eye(3),au);
 
-%    AU =-kron(eye(3), ...
-%              [kron(eye(Nsw),ones(Ns,1)); zeros(Nb,Nsw)]); % component of velocity due to translational velocity of swimmers; zero velocity of boundary
-
 af = zeros(Nsw,Ns+Nb);
 for n=1:Nsw
     af(n,Is{n}:Is{n+1}-1)=sum(NNss(1:Qs,Is{n}:Is{n+1}-1),1);
 end
 AF = kron(eye(3),af);
 
-%    AF = kron(eye(3),[kron(eye(Nsw),sum(NNss(1:Qs,1:Ns),1)) zeros(Nsw,Nb)]); % force summation - only on swimmers
-
-%ze=0*x1;
-%    AOm=[ze -x3 x2; zeros(Nb,3); x3 ze -x1; zeros(Nb,3); -x2 x1 ze; zeros(Nb,3)];
-
-%    Ze = zeros(Nsw*Ns+Nb,Nsw);
 % component of velocity due to rotation of swimmer about x0; zero velocity of boundary
 
 Ze  = zeros(Ns+Nb,Nsw);
@@ -128,23 +120,11 @@ x2m = zeros(Ns+Nb,Nsw);
 x3m = zeros(Ns+Nb,Nsw);
 for n=1:Nsw
     [x1,x2,x3]=ExtractComponents(xx0{n});
-    x1m(Is{n}:Is{n+1}-1,n)=x1;   % x1(Is{n}:Is{n+1}-1);
+    x1m(Is{n}:Is{n+1}-1,n)=x1;
     x2m(Is{n}:Is{n+1}-1,n)=x2;
     x3m(Is{n}:Is{n+1}-1,n)=x3;
 end
 AOm = [ Ze -x3m x2m; x3m Ze -x1m; -x2m x1m Ze];
-
-%     AOm=[ Ze                                  [kron(eye(Nsw),-x3); zeros(Nsw*Ns)]  [kron(eye(Nsw), x2); zeros(Nsw*Ns)]; ...
-%           [kron(eye(Nsw), x3); zeros(Nsw*Ns)] Ze                                   [kron(eye(Nsw),-x1); zeros(Nsw*Ns)]; ...
-%           [kron(eye(Nsw),-x2); zeros(Nsw*Ns)] [kron(eye(Nsw), x1); zeros(Nsw*Ns)]  Ze                                ];
-
-
-% ze=0*x1;
-%     AM=[ ze zeros(1,Nb) -x3 zeros(1,Nb)  x2 zeros(1,Nb); ...
-%          x3 zeros(1,Nb)  ze zeros(1,Nb) -x1 zeros(1,Nb); ...
-%         -x2 zeros(1,Nb)  x1 zeros(1,Nb)  ze zeros(1,Nb)];
-
-%    Ze = zeros(Nsw,Nsw*Ns+Nb);
 
 Ze  = zeros(Nsw,Ns+Nb);
 x1m = zeros(Nsw,Ns+Nb);
@@ -157,10 +137,6 @@ for n=1:Nsw
     x3m(n,Is{n}:Is{n+1}-1)=x3(Is{n}:Is{n+1}-1);
 end
 AM = [Ze -x3m x2m; x3m Ze -x1m; -x2m x1m Ze];
-
-%     AM=[ Ze                                 [kron(eye(Nsw),-x3) zeros(Nsw,Nb)]  [kron(eye(Nsw), x2) zeros(Nsw,Nb)]; ...
-%          [kron(eye(Nsw), x3) zeros(Nsw,Nb)] Ze                                  [kron(eye(Nsw),-x1) zeros(Nsw,Nb)]; ...
-%          [kron(eye(Nsw),-x2) zeros(Nsw,Nb)] [kron(eye(Nsw), x1) zeros(Nsw,Nb)]  Ze                               ];
 
 A=[AS AU AOm; AF zeros(3*Nsw,6*Nsw); AM zeros(3*Nsw,6*Nsw)];
 

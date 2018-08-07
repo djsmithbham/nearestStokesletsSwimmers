@@ -9,7 +9,7 @@ wd=7.0;
 ht=6.0;
 
 %% Panel a and c  - image of sperm beat pattern
-nbeats=1;
+nbeats=1; 
 tRange=[0 2*pi*nbeats];
 nns=30;
 
@@ -50,7 +50,6 @@ x1=x1*swimmer{1}.model.a1;
 x2=x2*swimmer{1}.model.a2;
 x3=x3*swimmer{1}.model.a3;
 
-
 surf(x1,x2,x3,0*x3);shading flat;light;
 
 clrs = summer(length(t));
@@ -90,7 +89,7 @@ print(2,'-dpng','-r600','figureSperm_c.png');
 
 %% Solve swimming problem
 
-nBeats = 1;
+nBeats = 5;
 tRange=[0 2*pi*nBeats];
 dt=2*pi*0.05;
 

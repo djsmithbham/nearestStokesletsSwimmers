@@ -34,30 +34,34 @@ function dz=SolveSwimmingProblemWithBoundary(z,swimmer,boundary,t,epsilon,domain
     Xs=ApplyRotationMatrix(B,Xi);
     Xs=TranslatePoints(Xs,x0);
     
+    NNss=NearestNeighbourMatrix(Xs,xs,blockSize);
+    
     if isempty(boundary)
         xb=[];
         Xb=[];
         vb=[];
+        NNbb=sparse([]);
     else
         [xb,Xb]=boundary.fn(boundary.model);
         vb=xb*0; % boundary is stationary
+        NNbb=NearestNeighbourMatrix(Xb,xb,blockSize);
     end
     
     x=MergeVectorGrids(xs,xb);
     X=MergeVectorGrids(Xs,Xb);
     v=MergeVectorGrids(vs,vb);
+    
+    NN=MergeNNMatrices(NNss,NNbb); % assemble nearest-neighbour matrices separately for swimmer and body
  
     % now formulate fluid dynamics problem... essentially a mobility problem 
 
     Ns=length(xs)/3;
     Qs=length(Xs)/3;
     Nb=length(xb)/3;
-    %Qb=length(Xb)/3;
     
     N=Ns+Nb;
 
-    [AS,~]=AssembleStokesletMatrix(x,X,x,epsilon,domain,blockSize);
-    NNss=NearestNeighbourMatrix(Xs,xs,blockSize);
+    [AS,~]=AssembleStokesletMatrix(x,X,x,epsilon,domain,blockSize,NN);
 
     AU =-kron(eye(3),[ones(Ns,1);zeros(Nb,1)]) ; % component of velocity due to translational velocity of swimmer; zero velocity of boundary
     
